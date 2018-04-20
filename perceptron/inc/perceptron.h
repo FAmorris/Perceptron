@@ -1,39 +1,49 @@
 #ifndef __PERCEPTRON_H
 #define __PERCEPTRON_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "Data.h"
 typedef struct {
-	int numOfInput;																								/* 感知机输入向量维数						*/
-	int numOfOutput;																							/* 感知机输出向量维数						*/
-}perceptParam;																									/* 感知机结构参数结构体定义			*/
+	i32 numOfInput;/* 感知机输入向量维数 */
+	i32 numOfOutput; /* 感知机输出向量维数 */
+}PCPT_ParamTypeDef, /* 感知机结构参数结构体 */
+*PCPT_ParamTypeDefPtr; /* 感知机结构参数结构体指针 */
 
 typedef struct{
-	perceptParam parameter;																				/* 感知机参数结构体变量					*/
-	DT_TypeDef perceptData;																							/* 感知机训练、测试数据结构体		*/
+	PCPT_ParamTypeDef parameter; /* 感知机参数结构体变量 */
+	DT_TypeDef perceptData; /* 感知机训练、测试数据结构体 */
 		
-	double *inPtr;																									/* 感知机数据输入存储一维数组		*/
-	double **wPtrs;																								/* 感知机权值存储二维数组				*/
-	double *ouPtr;																									/* 感知机输出存储一维数组				*/
+	d64 *inPtr;	 /* 感知机数据输入存储一维数组 */
+	d64 **wPtrs; /* 感知机权值存储二维数 */
+	d64 *ouPtr; /* 感知机输出存储一维数组 */
 	 
-	double learnRate;																							/* 感知机训练学习率							*/
+	d64 learnRate; /* 感知机训练学习率 */
 
-	int epoch;																										/* 感知机训练最大步数						*/
-	int perCreatLabel;																							/* 感知机内存已分配标志					*/
-	int perParmLabel;																							/* 感知机参数已设置标志					*/
+	i32 epoch; /* 感知机训练最大步数*/
+	i32 pcptCreatLabel; /* 感知机内存已分配标志 */
+	i32 pcptParmLabel; /* 感知机参数已设置标志 */
 
-}percetron, *perceptPtr;																						/* 感知机参数结构体定义					*/
+}PCPT_TypeDef, /* 感知机参数结构体 */
+*PCPT_TypeDefPtr;/* 感知机参数结构体指针 */
 
-double randOfDouble( void );																			/* 随机生产一个-1~+1之间的小数	*/
-int signFunction( double sum );																			/* 符号函数											*/
-void setPerceptronParam( perceptPtr pPtr );														/* 设置感知机参数函数						*/
-void perceptronCreat( perceptPtr pPtr );															/*	感知机分配内存函数					*/
-void perceptronInit( perceptPtr pPtr );																/*	感知机初始化函数						*/
-void perceptronTrain( perceptPtr pPtr );															/*	感知机训练自由参数函数			*/
-void perceptronTest( perceptPtr pPtr );																/*	感知机测试性能函数					*/
-void usePerceptron( perceptPtr pPtr );																/*	使用感知机函数							*/
-void printWeights( perceptPtr pPtr );																/* 显示感知机权值								*/
-void printBiases( perceptPtr pPtr );																	/* 显示感知机偏置								*/
-void printPerceptronParam( perceptPtr pPtr );
-void printInstructions( int *cho );
+void PCPT_SetPerceptronParam( PCPT_TypeDefPtr pPtr );
+void PCPT_PerceptronCreat( PCPT_TypeDefPtr pPtr );
+void PCPT_PerceptronInit( PCPT_TypeDefPtr pPtr );
+void PCPT_PerceptronTrain( PCPT_TypeDefPtr pPtr );
+void PCPT_PerceptronTest( PCPT_TypeDefPtr pPtr )	;
+void PCPT_UsePerceptron( PCPT_TypeDefPtr pPtr );
+void PCPT_PrintWeights( PCPT_TypeDefPtr pPtr );
+void PCPT_PrintBiases( PCPT_TypeDefPtr pPtr );
+void PCPT_PrintPerceptronParam( PCPT_TypeDefPtr pPtr );
+void PCPT_PrintInstructions( i32 *cho );
+
+#ifdef _cplusplus
+}
+#endif
+
 #endif  /* __PERCEPTRON_H */
 
 /******************************************************* END OF HEARD FILE *************************************************************/

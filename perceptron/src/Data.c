@@ -1,3 +1,22 @@
+/**
+   ******************************************************************************************************************************************************
+   * @file		Data.c
+   * @author	Morris
+   * @version	V1.0
+   * @date		2018年4月20日21:08:19 在VS2017上Debug模式最终运行
+   * @brief		统计学习、神经网络中的感知机（感知器）
+   ******************************************************************************************************************************************************
+   * @attention
+   *
+   *
+   *
+   *
+   *
+   *
+   ******************************************************************************************************************************************************
+   */
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -192,291 +211,305 @@ void DT_DatasCreat( DT_TypeDefPtr dPtr )
 	dPtr->creatLabel = 1;	/* 样本存储结构创建标志置1*/
 }/* end function  DT_DatasCreat */
 
+/**
+ * @brief	输入训练样本函数
+ * @param	DT_TypeDefPtr dPtr 数据存储结构体指针
+ * @retval	无
+ */
 void DT_InputTrainSamples( DT_TypeDefPtr dPtr )
 {
-	i32 i;																															/* 临时变量																			*/
-	i32 j;																															/* 临时变量																			*/
-	i32 numI = dPtr->numOfInput;																				/* 读取输入向量维数															*/
-	i32 numO = dPtr->numOfOutput;																			/* 读取输出向量维数															*/
-	i32 numS = dPtr->numOfSample;																			/* 读取训练样本总数															*/
+	i32 i;
+	i32 j;
+	i32 numI = dPtr->numOfInput;
+	i32 numO = dPtr->numOfOutput;
+	i32 numS = dPtr->numOfSample;
 	
-	if( dPtr->creatLabel == 1 ){																						/* 判断样本存储结构是否创建											*/
-		printf("Enter the input of trainnning samples,"
-				  "total of trainning samples of you setted were %d, "
-				  "dimentions were %d\n", numS, numI);													/* 文本显示信息																	*/
+	if( dPtr->creatLabel == 1 ){/* 判断样本存储结构是否创建	 */
+		printf("\n输入训练样本，样本总数：%d，样本输入维数：%d\n", numS, numI);
 		for( i = 0; i < numS; i++ ){
 			for( j = 0; j < numI; j++ ){
-				scanf_s("%lf", &dPtr->samPtrs[ j ][ i ] );														/* 输入训练样本数据输入													*/
+				scanf_s("%lf", &dPtr->samPtrs[ j ][ i ] );	/* 输入训练样本数据输入 */
 			}/* end for */
 		}/* end for */
 
-		printf("Enter the aim output of trainning samples, "
-				  "total of trainning samples of you setted were %d, "
-				  "dimention of output were %d:\n", numS, numO);									/* 文本显示信息																	*/
+		printf("\n输入训练样本目标输出，样本总数：%d，样本输出维数：%d\n", numS, numO);
 		for( i = 0; i < numS; i++ ){
 			for( j = 0; j < numO; j++ ){
-				scanf_s("%lf", &dPtr->aimPtrs[ j ][ i ]);														/* 输入训练样本目标输出													*/
+				scanf_s("%lf", &dPtr->aimPtrs[ j ][ i ]);/* 输入训练样本目标输出 */
 			}/* end for */
 		}/* end for */
+		dPtr->trainDataEntered = 1;
 	}/* end if */
 	else{
-		printf( "Could not enter the samples! "
-				   "Memery for sample did not allocate!\n");												/*	文本显示信息																*/
+		printf( "\n请先创建样本数据存储结构体！\n");
 	}/* end else */
-}/****************************************************************** end function InputTrainSamples *********************************************************************/
+}/*end function DT_InputTrainSamples */
 
+/**
+ * @brief	输入测试样本函数
+ * @param	DT_TypeDefPtr dPtr 数据存储结构体指针
+ * @retval	无
+ */
 void DT_InputTestSamples( DT_TypeDefPtr dPtr )
 {
-	i32 i;																															/* 临时变量																			*/
-	i32 j;																															/* 临时变量																			*/
-	i32 numI = dPtr->numOfInput;																				/* 读取输入向量维数															*/
-	i32 numO = dPtr->numOfOutput;																			/* 读取输出向量维数															*/
-	i32 numT = dPtr->numOfTSample;																		/* 读取测试样本总数															*/
+	i32 i;
+	i32 j;
+	i32 numI = dPtr->numOfInput;
+	i32 numO = dPtr->numOfOutput;
+	i32 numT = dPtr->numOfTSample;
 
-	if( dPtr->creatLabel == 1 ){																						/* 判断样本存储结构是否创建											*/
-		printf("Enter the input of test samples,"
-				  " total of test samples of you setted were %d, "
-				  " dimentions were %d\n", numT, numI);													/* 文本显示信息																	*/
+	if( dPtr->creatLabel == 1 ){ /* 判断样本存储结构是否创建 */
+		printf("\n输入测试样本，样本总数：%d，样本输入维数：%d\n", numT, numI);
 		for( i = 0; i < numT; i++ ){
 			for( j = 0; j < numI; j++ ){
-				scanf_s("%lf", &dPtr->tSamPtrs[ j ][ i ]);														/* 输入测试样本数据输入													*/
+				scanf_s("%lf", &dPtr->tSamPtrs[ j ][ i ]); /* 输入测试样本数据输入 */
 			}/* end for */
 		}/* end for */
 
-		printf("Enter the aim output of test samples, "
-				  "total of test samples of you setted were %d, "
-				  "dimention of output were %d:\n", numT, numO);									/* 文本显示信息																	*/
+		printf("\n输入测试样本目标输出，样本总数：%d，样本输出维数：%d\n", numT, numO);
 		for( i = 0; i < numT; i++ ){
 			for( j = 0; j < numO; j++ ){
-				scanf_s("%lf", &dPtr->tAimPtrs[ j ][ i ]);														/* 输入测试样本目标输出													*/
+				scanf_s("%lf", &dPtr->tAimPtrs[ j ][ i ]); /* 输入测试样本目标输出 */
 			}/* end for */
 		}/* end for */
+
+		dPtr->testDataEntered = 1;
 	}/* end if */
 	else{
-		printf("Please allocate memery for samples!\n");											   /* 文本显示信息																	*/
+		printf("\n请先创建数据存储结构");	
 	}/* end else */
-}/******************************************************************* end function InputTestSamples *********************************************************************/
+}/* end function DT_InputTestSamples */
 
+/**
+ * @brief	初始化数据结构体参数
+ * @param	DT_TypeDefPtr dPtr 数据存储结构体指针
+ * @retval	无
+ */
 void DT_DatasInit( DT_TypeDefPtr  dPtr )
 {
-	i32 i;																														 /* 临时变量																			*/
-	i32 j;																														 /* 临时变量																			*/
-	i32 numI   = dPtr->numOfInput;																			 /* 读取输入向量维数															*/
-	i32 numO = dPtr->numOfOutput;																		 /* 读取输出向量维数															*/
-	i32 numS  = dPtr->numOfSample;																		 /* 读取训练样本总数															*/
-	i32 numT = dPtr->numOfTSample;																	 /* 读取测试样本总数															*/
+	i32 i;
+	i32 j;
+	i32 numI   = dPtr->numOfInput;
+	i32 numO = dPtr->numOfOutput;
+	i32 numS  = dPtr->numOfSample;
+	i32 numT = dPtr->numOfTSample;
 
 	for( i = 0; i < numS; i++ ){
 		for(  j = 0; j < numI; j++ ){
-			dPtr->samPtrs[ j ][ i ] = 0.0;																		 /*	初始化训练样本存储二维数组										*/
+			dPtr->samPtrs[ j ][ i ] = 0.0; /* 初始化训练样本存储二维数组 */
 		}/* end for */
 
 		for( j = 0; j < numO; j++ ){
-			dPtr->aimPtrs[ j ][ i ] = 0.0;																		 /* 初始化训练样本目标输出存储二位数组						*/
+			dPtr->aimPtrs[ j ][ i ] = 0.0; /* 初始化训练样本目标输出存储二位数组 */
 		}/* end for */
 
-		dPtr->seqPtr[ i ] = 0;																						/* 初始化随机序列数组															*/
+		dPtr->seqPtr[ i ] = 0;/* 初始化随机序列数组 */
 	}/* end for */
 
 	for( i = 0; i < numT; i++ ){
 		for( j = 0; j < numI; j++ ){
-			dPtr->tSamPtrs[ j ][ i ] = 0.0;																	   /* 初始化测试样本目标输出存储二位数组							*/
+			dPtr->tSamPtrs[ j ][ i ] = 0.0;/* 初始化测试样本目标输出存储二位数组 */
 		}/*  end for */
 
 		for( j = 0; j < numO; j++ ){
-			dPtr->tAimPtrs[ j ][ i ] = 0.0;																	   /* 初始化测试样本目标输出存储二位数组						   */
+			dPtr->tAimPtrs[ j ][ i ] = 0.0;/* 初始化测试样本目标输出存储二位数组 */
 		}/* end for */
 	}/* end for */
-}/******************************************************************* end function DataInit *********************************************************************************/
 
+	dPtr->testDataEntered = 0;
+	dPtr->trainDataEntered = 0;
+
+}/* end function DataInit */
+
+/**
+ * @brief	释放数据存储结构中的内存分配
+ * @param DT_TypeDefPtr dPtr 数据存储结构体指针
+ * @retval	无
+ */
 void DT_DatasDeInit( DT_TypeDefPtr dPtr )
 {
-	i32 i;																													 /* 临时变量																				*/
-	i32 numI		= dPtr->numOfInput;																	 /* 读取输入向量维数																*/
-	i32 numO		= dPtr->numOfOutput;																 /* 读取输出向量维数																*/
-	i32 numS		= dPtr->numOfSample;																 /* 读取训练样本总数																*/
-	i32 numT		= dPtr->numOfTSample;														     /* 读取测试样本总数																*/
+	i32 i;
+	i32 numI = dPtr->numOfInput;
+	i32 numO = dPtr->numOfOutput;
+	i32 numS = dPtr->numOfSample;
+	i32 numT = dPtr->numOfTSample;
 
-	for( i = 0; i < numI; i++ ){
-		free( dPtr->samPtrs[ i ]);																			/* 释放存储训练样本数据二维数组	内存								*/
-		free( dPtr->tSamPtrs[ i ]);																			/* 释放存储测试样本数据二维数组内存									*/
-	}/* end for */
+	if ( dPtr->creatLabel == 1 ){
+		for ( i = 0; i < numI; i++ ){
+			free( dPtr->samPtrs[ i ] ); /* 释放存储训练样本数据二维数组内存 */
+			free( dPtr->tSamPtrs[ i ] ); /*释放存储测试样本数据二维数组内存 */
+		}/* end for */
 
-	free( dPtr->samPtrs);																						/*	释放训练样本数据的指针数组											*/
-	free( dPtr->tSamPtrs);																					/*	释放测试样本数据的指针数组											*/
+		free( dPtr->samPtrs );/* 释放训练样本数据的指针数组 */
+		free( dPtr->tSamPtrs ); /* 释放测试样本数据的指针数组 */
 
-	for( i = 0; i < numO; i++ ){
-		free( dPtr->aimPtrs[ i ] );																			/* 释放存储训练样本目标输出的二维数组内存						*/
-		free( dPtr->tAimPtrs[ i ] );																			/* 释放存储测试样本目标输出的二维数组内存						*/
-	}/* end for */
+		for ( i = 0; i < numO; i++ ){
+			free( dPtr->aimPtrs[ i ] );	 /* 释放存储训练样本目标输出的二维数组内存 */
+			free( dPtr->tAimPtrs[ i ] ); /* 释放存储测试样本目标输出的二维数组内存 */
+		}/* end for */
 
-	free( dPtr->aimPtrs );																						/*	释放训练样本目标输出的指针数组									*/
-	free( dPtr->tAimPtrs );																					/*	释放测试样本目标输出的指针数组									*/
-	free( dPtr->seqPtr );																						/* 释放随机序列一维数组内存													*/
+		free( dPtr->aimPtrs );	 /* 释放训练样本目标输出的指针数组 */
+		free( dPtr->tAimPtrs );/* 释放测试样本目标输出的指针数组	 */
+		free( dPtr->seqPtr ); /* 释放随机序列一维数组内存 */
+		dPtr->creatLabel = 0;
+	}/* end if */
+	else printf( "\n数据结构体不存在！\n" );
 
-	dPtr->creatLabel				= 0;																			/* 初始化创建标志																		*/
-	dPtr->samParmLabel		= 0;																			/* 初始化创建标志																		*/
-	dPtr->numOfInput			= 0;																			/* 初始化输入维数																		*/
-	dPtr->numOfOutput		= 0;																			/* 初始化输出维数																		*/
-	dPtr->numOfSample		= 0;																			/* 初始化训练样本总数																*/
-	dPtr->numOfTSample	= 0;																			/* 初始化测试样本总数																*/
-}/******************************************************************* end function DatasDeInit *****************************************************************************/
+	dPtr->creatLabel = 0; /* 初始化创建标志 */
+	dPtr->samParmLabel	 = 0; /* 初始化创建标志 */
+	dPtr->numOfInput = 0;  /* 初始化输入维数 */
+	dPtr->numOfOutput = 0;  /* 初始化输出维数 */
+	dPtr->numOfSample	= 0;  /* 初始化训练样本总数 */
+	dPtr->numOfTSample= 0;  /* 初始化测试样本总数 */
+	dPtr->testDataEntered = 0;
+	dPtr->trainDataEntered = 0;
+}/*end function DT_DatasDeInit*/
 
+/**
+ * @brief	显示训练样本每10个样本换行
+ * @param DT_TypeDefPtr dPtr 数据存储结构体指针
+ * @retval	无
+ */
 void DT_PrintTrainSamples( DT_TypeDefPtr dPtr )
 {
-	i32 i;																													/* 临时变量																					*/
-	i32 j;																													/* 临时变量																					*/
-	i32 k;																												/* 临时变量																					*/
-	i32 temp1 = 0;																									/* 临时变量																					*/
-	i32 temp2 = 0;																									/* 临时变量																					*/
-	i32 temp3 = 0;																									/* 临时变量																					*/
-	i32 temp4 = 0;																									/* 临时变量																					*/
-	i32 numI		= dPtr->numOfInput;
-	i32 numO		= dPtr->numOfOutput;
-	i32 numS		= dPtr->numOfSample;
+	i32 i, j, k;
+	i32 temp1 = 0, temp2 = 0, temp3 = 0, temp4 = 0;
+	i32 numI = dPtr->numOfInput;
+	i32 numO = dPtr->numOfOutput;
+	i32 numS = dPtr->numOfSample;
 
 	temp1 = numS / 10;
 	temp2 = numS % 10;
+	if ( dPtr->trainDataEntered == 1 ){
+		if ( temp1 != 0 ){
+			for ( k = 0; k < temp1; k++ ){
+				printf( "\n训练样本输入 %d - %d:\n", temp3 + 1, temp4 + 10 );
 
-	if( temp1 != 0 ){
-		temp4 = 10;
-		for( k = 0; k < temp1; k++ ){
-			printf( "\nInput of trainning samples between"
-					   " %d and %d are :\n", temp3 + 1, temp4 );
-
-			for( i = 0; i < numI; i++ ){
-				for( j = temp3; j < temp4; j++ ){
-					printf("%-5.3lf ", dPtr->samPtrs[ i ][ j ]);
+				for ( i = 0; i < numI; i++ ){
+					for ( j = temp3; j < temp4 + 10; j++ ){
+						printf( "%-10.3lf ", dPtr->samPtrs[ i ][ j ] );
+					}/* end for */
+					printf( "\n" );
 				}/* end for */
-				printf("\n");
-			}/* end for */
 
-			printf( "\nAim output of trainning samples between"
-					   " %d and %d are :\n", temp3 + 1, temp4 );
+				printf( "\n目标输出：\n" );
 
-			for( i = 0; i < numO; i++ ){
-				for( j = temp3; j < temp4; j++ ){
-					printf("%-5.3lf ", dPtr->aimPtrs[ i ][ j ]);
+				for ( i = 0; i < numO; i++ ){
+					for ( j = temp3; j < temp4 + 10; j++ ){
+						printf( "%-5.3lf ", dPtr->aimPtrs[ i ][ j ] );
+					}/* end for */
+					printf( "\n" );
 				}/* end for */
-				printf("\n");
-			}/* end for */
 
-			temp3 = temp4;
-			temp4 += 10;
-		}/* end for */
-	}/* end if */
-
-	if( temp2 != 0 ){
-			temp3 = temp4;
-			temp4 += temp2;
-
-			printf( "\nInput of trainning samples between "
-				       "%d and %d are :\n", temp3 + 1, temp4 );
-
-			for( i = 0; i < numI; i++ ){
-				for( j = temp3; j < temp4; j++ ){
-					printf("%-5.3lf ", dPtr->samPtrs[ i ][ j ]);
-				}/* end for */
-				printf("\n");
-			}/* end for */
-
-			printf( "\nAim output of trainning samples between "
-					   "%d and %d are :\n", temp3 + 1, temp4 );
-
-			for( i = 0; i < numO; i++ ){
-				for( j = temp3; j < temp4; j++ ){
-					printf("%-5.3lf ", dPtr->aimPtrs[ i ][ j ]);
-				}/* end for */
-				printf("\n");
+				temp3 = temp4 + 10;
+				temp4 += 10;
 			}/* end for */
 		}/* end if */
 
-	if( temp1 == 0 && temp2 == 0 ){
-		printf( "No trainning samples exist!\n" );
-	}/* end if */
-}/* end function printSamples */
+		if ( temp2 != 0 ){
+			temp3 = temp4;
+			temp4 += temp2;
 
+			printf( "\n训练样本输入 %d - %d:\n", temp3 + 1, temp4 );
+
+			for ( i = 0; i < numI; i++ ){
+				for ( j = temp3; j < temp4; j++ ){
+					printf( "%-5.3lf ", dPtr->samPtrs[ i ][ j ] );
+				}/* end for */
+				printf( "\n" );
+			}/* end for */
+
+			printf( "\n目标输出：\n" );
+
+			for ( i = 0; i < numO; i++ ){
+				for ( j = temp3; j < temp4; j++ ){
+					printf( "%-5.3lf ", dPtr->aimPtrs[ i ][ j ] );
+				}/* end for */
+				printf( "\n" );
+			}/* end for */
+		}/* end if */
+	}
+	else printf( "\n无训练数据.\n" );
+}/* end function DT_PrintTrainSamples */
+
+/**
+ * @brief	显示测试样本每10个样本换行
+ * @param DT_TypeDefPtr dPtr 数据存储结构体指针
+ * @retval	无
+ */
 void DT_PrintTestSamples( DT_TypeDefPtr dPtr )
 {
-	i32 i;
-	i32 j;
-	i32 k;
-	i32 temp1 = 0;
-	i32 temp2 = 0;
-	i32 temp3 = 0;
-	i32 temp4 = 0;
-	i32 numI		= dPtr->numOfInput;
-	i32 numO		= dPtr->numOfOutput;
-	i32 numT		= dPtr->numOfTSample;
+	i32 i, j, k;
+	i32 temp1 = 0, temp2 = 0, temp3 = 0, temp4 = 0;
+	i32 numI = dPtr->numOfInput;
+	i32 numO = dPtr->numOfOutput;
+	i32 numT = dPtr->numOfTSample;
 
 	temp1 = numT / 10;
 	temp2 = numT % 10;
+	if ( dPtr->testDataEntered == 1 ){
+		if ( temp1 != 0 ){
+			for ( k = 0; k < temp1; k++ ){
+				printf( "\n测试样本输入 %d - %d:\n", temp3 + 1, temp4 + 10 );
 
-	if( temp1 != 0 ){
-		temp4 = 10;
-
-		for( k = 0; k < temp1; k++ ){
-			printf( "\nInput of test samples between "
-					   "%d and %d are :\n", temp3 + 1, temp4 );
-
-			for( i = 0; i < numI; i++ ){
-				for( j = temp3; j < temp4; j++ ){
-					printf("%-5.3lf ", dPtr->tSamPtrs[ i ][ j ]);
+				for ( i = 0; i < numI; i++ ){
+					for ( j = temp3; j < temp4 + 10; j++ ){
+						printf( "%-5.3lf ", dPtr->tSamPtrs[ i ][ j ] );
+					}/* end for */
+					printf( "\n" );
 				}/* end for */
-				printf("\n");
-			}/* end for */
 
-			printf( "\nAim output of test samples between "
-				       "%d and %d are :\n", temp3 + 1, temp4 );
+				printf( "\n目标输出：\n" );
 
-			for( i = 0; i < numO; i++ ){
-				for( j = temp3; j < temp4; j++ ){
-					printf("%-5.3lf ", dPtr->tAimPtrs[ i ][ j ]);
+				for ( i = 0; i < numO; i++ ){
+					for ( j = temp3; j < temp4; j++ ){
+						printf( "%-5.3lf ", dPtr->tAimPtrs[ i ][ j ] );
+					}/* end for */
+					printf( "\n" );
 				}/* end for */
-				printf("\n");
-			}/* end for */
 
-			temp3 = temp4;
-			temp4 += 10;
-		}/* end for */
-	}/* end if */
-
-	if( temp2 != 0 ){
-			temp3 = temp4;
-			temp4 += temp2;
-
-			printf( "\nInput of test samples between "
-					   "%d and %d are :\n", temp3 + 1, temp4 );
-
-			for( i = 0; i < numI; i++ ){
-				for( j = temp3; j < temp4; j++ ){
-					printf("%-5.3lf ", dPtr->tSamPtrs[ i ][ j ]);
-				}/* end for */
-				printf("\n");
-			}/* end for */
-
-			printf( "\nAim output of test samples between "
-					   "%d and %d are :\n", temp3 + 1, temp4 );
-
-			for( i = 0; i < numO; i++ ){
-				for( j = temp3; j < temp4; j++ ){
-					printf("%-5.3lf ", dPtr->tAimPtrs[ i ][ j ]);
-				}/* end for */
-				printf("\n");
+				temp3 = temp4 + 10;
+				temp4 += 10;
 			}/* end for */
 		}/* end if */
 
-	if( temp1 == 0 && temp2 == 0 ){
-		printf( "No test samples exist!\n" );
-	}/* end if */
-}/* end function printTestSamples */
+		if ( temp2 != 0 ){
+			temp3 = temp4;
+			temp4 += temp2;
 
+			printf( "\n测试样本输入 %d - %d:\n", temp3 + 1, temp4 );
+
+			for ( i = 0; i < numI; i++ ){
+				for ( j = temp3; j < temp4; j++ ){
+					printf( "%-5.3lf ", dPtr->tSamPtrs[ i ][ j ] );
+				}/* end for */
+				printf( "\n" );
+			}/* end for */
+
+			printf( "\n目标输出：\n" );
+
+			for ( i = 0; i < numO; i++ ){
+				for ( j = temp3; j < temp4; j++ ){
+					printf( "%-5.3lf ", dPtr->tAimPtrs[ i ][ j ] );
+				}/* end for */
+				printf( "\n" );
+			}/* end for */
+		}/* end if */
+	}/* end if */
+	else printf( "\n无测试数据。\n" );
+}/* end function DT_PrintTestSamples */
+
+/**
+ * @brief	显示数据存储结构体参数
+ * @param DT_TypeDefPtr dPtr 数据存储结构体指针
+ * @retval	无
+ */
 void DT_PrintDatasParams( DT_TypeDefPtr dPtr )
 {
-	printf("\nInput dimentions of samples: %d\n"
-			  "\nOutput dimentions of samples: %d\n"
-			  "\nTotal of trainning samples: %d\n"
-			  "\nTotal of test samples: %d\n", 
+	printf("\n样本输入维数: %d\n"
+			  "\n样本输出维数: %d\n"
+			  "\n训练样本总数: %d\n"
+			  "\n测试样本总数: %d\n", 
 			  dPtr->numOfInput, dPtr->numOfOutput, 
 			  dPtr->numOfSample, dPtr->numOfTSample);
 }/* end function printDatasParams */

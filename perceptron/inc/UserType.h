@@ -4,6 +4,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 typedef char								c8;
 typedef unsigned char					u8;
 typedef short int							i16;

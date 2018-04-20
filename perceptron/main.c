@@ -1,75 +1,102 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-#include "Data.h"
-#include "perceptron.h"
+#include "./inc/perceptron.h"
+#include "./inc/Data.h"
+
+#define MODE 1
 
 int main( void )
 {
-	percetron p;
+	PCPT_TypeDef p;
+#if !MODE
 	int chose = 0;
 	int i;
+#endif
 
 	srand( ( unsigned int )time( NULL ) );
+#if MODE
+	DT_SetSampleParameters( &p.perceptData );
+	DT_DatasCreat( &p.perceptData );
+	DT_DatasInit( &p.perceptData );
+	DT_InputTrainSamples( &p.perceptData ); 
+	DT_InputTestSamples( &p.perceptData );
 
-	printInstructions( &chose );
+#if 0 /* 可选择是否显示样本 */
+	DT_PrintTrainSamples( &p.perceptData );
+	DT_InputTestSamples( &p.perceptData );
+#endif
 
+	PCPT_SetPerceptronParam( &p );
+	PCPT_PerceptronInit( &p );
+	PCPT_PerceptronTrain( &p );
+	PCPT_PerceptronTest( &p );
+	PCPT_UsePerceptron( &p );
+
+#if 0/* 可选择是否显示参数 */
+	PCPT_PrintWeights( &p );
+	PCPT_PrintBiases( &p );
+#endif
+
+#else
+	PCPT_PrintInstructions( &chose );
 	while( chose ){
 		switch( chose ){
 			case 1:
-				setSampleParameters( &p.perceptData );
+				DT_SetSampleParameters( &p.perceptData );
 				break;
 			case 2:
-				printDatasParams( &p.perceptData );
+				DT_PrintDatasParams( &p.perceptData );
 				break;
 			case 3:
-				setPerceptronParam( &p );
+				PCPT_SetPerceptronParam( &p );
 				break;
 			case 4:
-				printPerceptronParam( &p );
+				PCPT_PrintPerceptronParam( &p );
 				break;
 			case 5:
-				DatasCreat( &p.perceptData );
+				DT_DatasCreat( &p.perceptData );
 				break;
 			case 6:
-				perceptronCreat( &p );
+				PCPT_PerceptronCreat( &p );
 				break;
 			case 7:
-				DatasInit( &p.perceptData );
+				DT_DatasInit( &p.perceptData );
 				break;
 			case 8:
-				perceptronInit( &p );
+				PCPT_PerceptronInit( &p );
 				break;
 			case 9:
-				InputTrainSamples( &p.perceptData ); 
+				DT_InputTrainSamples( &p.perceptData ); 
 				break;
 			case 10:
-				InputTestSamples( &p.perceptData );
+				DT_InputTestSamples( &p.perceptData );
 				break;
 			case 11:
-				printTrainSamples( &p.perceptData );
+				DT_PrintTrainSamples( &p.perceptData );
 				break;
 			case 12:
-				printTestSamples( &p.perceptData );
+				DT_PrintTestSamples( &p.perceptData );
 				break;
 			case 13:
-				printWeights( &p );
+				PCPT_PrintWeights( &p );
 				break;
 			case 14:
-				printBiases( &p );
+				PCPT_PrintBiases( &p );
 				break;
 			case 15:
-				perceptronInit( &p );
-				perceptronTrain( &p );
+				PCPT_PerceptronInit( &p );
+				PCPT_PerceptronTrain( &p );
 				break;
 			case 16:
-				perceptronTest( &p );
+				PCPT_PerceptronTest( &p );
 				break;
 			case 17:
-				usePerceptron( &p );
+				PCPT_UsePerceptron( &p );
 				break;
 		}/* end switch */
-		printInstructions( &chose );
+		PCPT_PrintInstructions( &chose );
 	}/* end while */
+#endif
 	return 0;
 }/* end function main */
